@@ -8,9 +8,9 @@ int main() {
     cin >> n;
     cout << "Введите m: ";
     cin >> m;
-    for (int i = 0; i < n; ++i) {
-        s += m % 10;
-        m /= 10;
+    for (int i = 0; i < m; ++i) {
+        s += n % 10;
+        n /= 10;
     }
     cout << "Сумма равняется " << s;
     return 0;
