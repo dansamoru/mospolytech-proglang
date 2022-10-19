@@ -20,7 +20,7 @@ int main() {
     for (int i = 0; i < nstr; ++i) {
         b[i] = new int[nstb];
         for (int j = 0; j < nstb; ++j) {
-            b[i][j] = rand() % 2;
+            b[i][j] = rand() % 3 - 1;
             cout << b[i][j] << " ";
         }
         cout << endl;

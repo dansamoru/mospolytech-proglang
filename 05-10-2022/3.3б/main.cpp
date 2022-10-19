@@ -16,6 +16,7 @@ int main() {
     for (int i = 0; i < s; ++i) {
         cout << arr[i] << " ";
     }
+    delete[] arr;
     return 0;
 }
 
