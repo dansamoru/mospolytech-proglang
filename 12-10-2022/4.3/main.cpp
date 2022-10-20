@@ -1,50 +1,58 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <cstring>
 
 using namespace std;
 
+const unsigned short int SIZE = 5;
+
 struct Airport {
-    string flight_number;
-    string departure_name;
-    string arrival_name;
-    string plane_type;
+    char flight_number[SIZE * 2]{};
+    char departure_name[SIZE]{};
+    char arrival_name[SIZE]{};
+    char plane_type[SIZE]{};
     unsigned int seats_number{};
 };
 
 int main() {
-    vector <Airport> airports = {
-            Airport{
-                    "B103",
-                    "UUEE",
-                    "UWGG",
-                    "SU95",
-                    98,
-            }, Airport{
-                    "B110",
-                    "UUEE",
-                    "ULLI",
-                    "A320",
-                    158,
-            }, Airport{
-                    "B116",
-                    "UUEE",
-                    "URMM",
-                    "A321",
-                    236,
-            }, Airport{
-                    "B102",
-                    "UUEE",
-                    "UNNT",
-                    "A320",
-                    158,
-            }, Airport{
-                    "B118",
-                    "UUEE",
-                    "URSS",
-                    "A321",
-                    236,
-            }};
+    unsigned int airports_size = 5;
+    auto *airports = (Airport *) malloc(sizeof(Airport) * airports_size);
+    
+    airports[0] = Airport{
+            "SU1110",
+            "UUEE",
+            "URSS",
+            "A320",
+            158,
+    };
+    airports[1] = Airport{
+            "SU1522",
+            "UUEE",
+            "USMU",
+            "A320",
+            158,
+    };
+    airports[2] = Airport{
+            "SU1304",
+            "UUEE",
+            "URMM",
+            "A321",
+            236,
+    };
+    airports[3] = Airport{
+            "SU1134",
+            "UUEE",
+            "URSS",
+            "A350",
+            316,
+    };
+    airports[4] = Airport{
+            "SU006",
+            "UUEE",
+            "ULLI",
+            "A321",
+            236,
+    };
     
     unsigned short int command = 3;
     cout << "Рейсовый менеджер" << endl;
@@ -61,41 +69,61 @@ int main() {
     while (command != 0) {
         switch (command) {
             case 1: {
-                airports.emplace_back();
+                airports = (Airport *) realloc(airports, sizeof(Airport) * (airports_size + 1));
+                
                 cout << "\n############################\n# Ввод нового элемента:\n#\n";
                 cout << ">>> номер рейса: ";
-                cin >> airports[airports.size() - 1].flight_number;
+                cin >> airports[airports_size].flight_number;
                 cout << ">>> точка отправления: ";
-                cin >> airports[airports.size() - 1].departure_name;
+                cin >> airports[airports_size].departure_name;
                 cout << ">>> точка прибытия: ";
-                cin >> airports[airports.size() - 1].arrival_name;
+                cin >> airports[airports_size].arrival_name;
                 cout << ">>> тип самолёта: ";
-                cin >> airports[airports.size() - 1].plane_type;
+                cin >> airports[airports_size].plane_type;
                 cout << ">>> количество мест: ";
-                cin >> airports[airports.size() - 1].seats_number;
+                cin >> airports[airports_size].seats_number;
                 cout << "#\n############################\n\n";
+                
+                airports_size++;
                 break;
             }
             case 2: {
                 cout << "\n############################\n# Сортировка по типу самолёта:\n#\n";
                 cout << ">>> тип самолёта: ";
-                string tmp_plane_type;
+                char tmp_plane_type[SIZE];
                 cin >> tmp_plane_type;
-                vector <string> tmp_ans_arr(0);
-                for (int i = 0; i < airports.size(); ++i) {
-                    if (airports[i].plane_type == tmp_plane_type) {
-                        tmp_ans_arr.push_back(airports[i].arrival_name + ": " +
-                                              airports[i].flight_number);
+                auto **tmp_ans_arr = (char **) malloc(0);
+                int tmp_ans_arr_size = 0;
+                for (int i = 0; i < airports_size; ++i) {
+                    if (strcmp(airports[i].plane_type, tmp_plane_type) == 0) {
+                        tmp_ans_arr = (char **) realloc(tmp_ans_arr, sizeof(char *) * (tmp_ans_arr_size + 1));
+                        tmp_ans_arr[tmp_ans_arr_size] = (char *) malloc(sizeof(char) * (SIZE * 3 + 2));
+                        snprintf(tmp_ans_arr[tmp_ans_arr_size], sizeof(char) * (SIZE * 3 + 2),
+                                 "%s: %s", airports[i].arrival_name, airports[i].flight_number);
+                        tmp_ans_arr_size++;
                     }
                 }
-                sort(tmp_ans_arr.begin(), tmp_ans_arr.end());
+                
+                int m;
+                for (int i = 0; i < tmp_ans_arr_size; ++i) {
+                    m = i;
+                    for (int j = i; j < tmp_ans_arr_size; ++j) {
+                        if (strcmp(tmp_ans_arr[i], tmp_ans_arr[j]) > 0) {
+                            m = j;
+                        }
+                    }
+                    auto tmp = tmp_ans_arr[i];
+                    tmp_ans_arr[i] = tmp_ans_arr[m];
+                    tmp_ans_arr[m] = tmp;
+                }
                 
                 cout << "#\n";
-                for (int i = 0; i < tmp_ans_arr.size(); ++i) {
+                for (int i = 0; i < tmp_ans_arr_size; ++i) {
                     cout << "# " << tmp_ans_arr[i] << endl;
+                    delete[] tmp_ans_arr[i];
                 }
                 cout << "############################" << endl << endl;
-                
+                delete[] tmp_ans_arr;
                 break;
             }
             default:
@@ -104,6 +132,7 @@ int main() {
         cout << ">>> Введите номер команды: ";
         cin >> command;
     }
+    delete[] airports;
     
     return 0;
 }
