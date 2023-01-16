@@ -105,6 +105,7 @@ int main() {
     deck.push_front(4);
     deck.push_front(5);
     deck.push_front(6);
+    std::cout << "Дек: ";
     deck.print();
     std::cout << "Последний элемент: " << deck.pop_back() << std::endl;
     std::cout << "Первый элемент: " << deck.pop_front() << std::endl;
