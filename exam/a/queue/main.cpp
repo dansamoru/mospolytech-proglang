@@ -60,9 +60,16 @@ int main() {
     queue.push(1);
     queue.push(2);
     queue.push(3);
+    std::cout << "Очередь: ";
     queue.print();
-    std::cout << queue.pop() << std::endl;
-    std::cout << queue.pop() << std::endl;
-    std::cout << queue.pop() << std::endl;
+    std::cout << "Удаляем элемент: " << queue.pop() << std::endl;
+    std::cout << "Очередь: ";
+    queue.print();
+    std::cout << "Удаляем элемент: " << queue.pop() << std::endl;
+    std::cout << "Очередь: ";
+    queue.print();
+    std::cout << "Удаляем элемент: " << queue.pop() << std::endl;
+    std::cout << "Очередь: ";
+    queue.print();
     return 0;
 }
