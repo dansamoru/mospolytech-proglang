@@ -53,8 +53,10 @@ int main() {
     stack.push(1);
     stack.push(2);
     stack.push(3);
+    std::cout << "Стек: ";
     stack.print();
-    std::cout << stack.pop() << std::endl;
+    std::cout << "Удаляем элемент из стека: " << stack.pop() << std::endl;
+    std::cout << "Стек: ";
     stack.print();
     return 0;
 }
